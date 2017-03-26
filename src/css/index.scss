@@ -1,0 +1,140 @@
+@import "./common/base";
+$maxWidth: 1920px;
+$minWidth: 1080px;
+//css需要添加几张jpg图片来测试
+h1,h2,h3,h4 {
+	font-weight: normal;
+}
+
+body {
+	font-size: 12px;
+	font-family: "微软雅黑",arail;
+	min-height: 400px;
+}
+.rules-dialog {
+	display:block;
+	position: fixed;
+	width: 100%;
+	top: 0;
+	bottom: 0;
+	z-index: 30;
+	background-color: #000;
+	background:rgba(0,0,0,.6);
+	.d-inner {
+		font-size: 13px;
+		position:absolute;
+		width: 660px;
+		height: 338px;
+		left: 50%;
+		top: 50%;
+		margin-left: -330px;
+		margin-top: -119px;
+		background: url('../images/dialog_bg.png') center center no-repeat;
+		p {
+			color: #fff;
+		
+		}
+		ol {
+			color: #fce20a;
+			margin-top: 20px;
+			a {
+				color: #fce20a;
+				text-decoration: underline;
+			}
+		}
+		
+	}
+	.close {
+		width: 40px;
+		height: 40px;
+		position: absolute;
+		right: 40px;
+		top: 12px;
+		@extend %text-hide;
+	}
+	.d-cont {
+		width: 436px;
+		margin-top: 90px;
+		line-height: 24px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+
+}
+.wrapper {
+	max-width: $maxWidth;
+	min-width: $minWidth;
+	margin-left: auto;
+	margin-right: auto;
+}
+.md-inner {
+	position: relative;
+	width: $minWidth;
+	margin-left: auto;
+	margin-right: auto;
+	@extend %clearfix;
+}
+.md2 {
+	// height: 550px;
+	position:relative;
+	&>.md-inner{
+		height: 564px;
+	}
+	.play-btn {
+		display: block;
+		// position: absolute;
+		margin-top: 482px;
+		width: 198px;
+		height: 56px;
+		line-height: 56px;
+		margin-left: auto;
+		margin-right: auto;
+		border-radius: 56px;
+		background-color: #06752c;
+		color: #fff;
+		font-size: 24px;
+		text-align: center;
+		&:hover {
+			background-color:#077c30;
+		}
+	}
+	.rules {
+		position:absolute;
+		right: 286px;
+		top: 446px;
+		width: 62px;
+		height: 28px;
+		line-height: 28px;
+		color: #06752c;
+		font-size: 14px;
+		text-align: center;
+		text-decoration: underline;
+	}
+	
+}
+.md6 {
+	height: 220px;
+	background-color:#c62617;
+	.main {
+		margin-top:30px;
+		margin-left: 254px;
+		float: left;
+		ul {
+			@extend %clearfix;
+		}
+		li {
+			img {
+				width: 128px;
+				height: 128px;
+			}
+			float: left;
+			margin-right: 20px;
+			text-align: center;
+			h2 {
+				color: #fff;
+				font-size: 12px;
+				line-height: 31px;
+			}
+		}
+	}
+}
