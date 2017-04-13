@@ -1,11 +1,11 @@
 let a = 1,
-	b = () => {
-		return 'method'
-	},
-	c = {
-		prop: 'test'
-	}
+  b = () => {
+    return 'method'
+  },
+  c = {
+    prop: 'test'
+  }
 export {
-	version
+  version
 }
 from './a'
