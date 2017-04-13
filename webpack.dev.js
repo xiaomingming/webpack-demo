@@ -1,8 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const importOnce = require('node-sass-import-once');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const webpackMerge = require('webpack-merge');
 const commonConfig = require('./webpack.base.js')();
 const hotReplaceScript = 'webpack-hot-middleware/client?reload=true';
@@ -28,6 +26,13 @@ const config = webpackMerge(commonConfig, {
 			'process.env': {
 				'NODE_ENV': JSON.stringify('dev')
 			}
+		}),
+		new ExtractTextPlugin({
+			filename: "[name].css"
+		}), //不用显式导入模块，就可以自动导入
+		new webpack.ProvidePlugin({
+			$: 'jquery', //此处的jquery需要使用alias漏出的别名，$则代表暴露在代码中的变量
+			jQuery: 'jquery'
 		}),
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NoEmitOnErrorsPlugin(),

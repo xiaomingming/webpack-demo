@@ -4,12 +4,15 @@ const importOnce = require('node-sass-import-once');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const InlineChunkManifestHtmlWebpackPlugin = require('inline-chunk-manifest-html-webpack-plugin');
+const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
+const WebpackChunkHash = require('webpack-chunk-hash');
 const ASSETS = path.join(__dirname, './src');
 const config = function(options) {
 	return {
 		entry: {
-			index: './src/js/app/index.js'
+			index: './src/js/app/index.js',
+			common: ['./src/js/libs/jquery.js'] //入口抽取共用文件
 		},
 		module: {
 			noParse: /jquery/,
@@ -83,7 +86,7 @@ const config = function(options) {
 					}
 				}
 			}, {
-				test: /\.html$/,
+				test: /\.(html|ejs)$/, //html-loader可以处理前景图路径
 				use: 'html-loader'
 			}, {
 				test: /\.(js|jsx)$/,
@@ -91,7 +94,12 @@ const config = function(options) {
 					loader: 'babel-loader',
 					options: {
 						minified: true,
-						presets: 'es2015',
+						presets: [
+							['es2015', {
+								modules: false
+							}]
+						],
+						plugins: ['syntax-dynamic-import'],
 						ignore: /(node_modules|bower_components)/ //这样会忽略掉将对应目录下的js文件进行转换
 					}
 				}
@@ -110,20 +118,36 @@ const config = function(options) {
 			}
 		},
 		context: __dirname,
-		plugins: [new ExtractTextPlugin({
-				filename: "[name].css"
-			}), //不用显式导入模块，就可以自动导入
+		plugins: [
 			new webpack.ProvidePlugin({
-				$: 'jquery',
-				jQuery: 'jquery' //1.8.2版本的jquery导入时有问题，应当是不支持cmd格式导致的问题
+				$: 'jquery', //此处的jquery需要使用alias漏出的别名，$则代表暴露在代码中的变量
+				jQuery: 'jquery'
 			}),
+			new webpack.optimize.CommonsChunkPlugin({
+				names: ["common", "manifest"] // vendor libs + extracted manifest
+					// minChunks: Infinity,
+			}),
+			new webpack.HashedModuleIdsPlugin(),
+			new WebpackChunkHash(),
+			new ChunkManifestPlugin({
+				filename: "chunk-manifest.json",
+				manifestVariable: "webpackManifest"
+			}),
+
 			new HtmlWebpackPlugin({
 				title: 'my web App',
 				filename: 'index.html',
-				template: './src/index.html',
+
+				template: './src/index.ejs',
 				inject: 'body',
-				chunks: ['index']
-			})
+
+				chunks: ['index', 'common', 'manifest']
+
+			}),
+			new InlineChunkManifestHtmlWebpackPlugin({
+				filename: "chunk-manifest.json",
+				manifestVariable: "webpackManifest"
+			}),
 		]
 	}
 };

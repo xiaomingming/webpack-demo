@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="zh-cms-Hans">
 <head>
 	<meta charset="UTF-8">
-	<title>测试页面</title>
+	<title><%= htmlWebpackPlugin.options.title %></title>
 </head>
 <body>
 	<div class="wrapper">
@@ -32,5 +33,6 @@
 		<a href="javascript:void(0)" class="close">关闭</a>
 		</div>
 	</div>
+	<%=htmlWebpackPlugin.files.webpackManifest%>
 </body>
 </html>

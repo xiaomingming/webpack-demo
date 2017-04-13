@@ -1,8 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
-const importOnce = require('node-sass-import-once');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
 const webpackMerge = require('webpack-merge');
 const commonConfig = require('./webpack.base.js');
 const config = function(env) {
@@ -11,7 +9,7 @@ const config = function(env) {
 			path: path.resolve(__dirname, './dist'),
 			// pathinfo: true,
 			publicPath: './', //设置静态资源的路径
-			filename: '[name].js', //name对应入口的key值,可以添加hash [hash]|[chunkhash],chunkhash好像有乱码。。。
+			filename: '[name].[chunkhash].js', //name对应入口的key值,可以添加hash [hash]|[chunkhash]
 			// chunkFilename: '[chunkhash:8].js',
 			library: 'MyPlugin', //打包后的文件对外暴露的接口名称
 			libraryTarget: 'umd', //打包格式
@@ -70,7 +68,13 @@ const config = function(env) {
 					'NODE_ENV': JSON.stringify('prod')
 				}
 			}),
+			new ExtractTextPlugin({
+				filename: "[name].css?[chunkhash:8]"
+			}), //不用显式导入模块，就可以自动导入
 		],
+		externals: {
+			// jquery: '$' //key为alia别名，$为该组件暴露给window全局的定义
+		},
 		// 性能考量，提示
 		performance: {
 			hints: 'warning', //设置为error，文件体积超标，则编译不通过
