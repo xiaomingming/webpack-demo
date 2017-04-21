@@ -15,7 +15,7 @@ const config = webpackMerge(commonConfig, {
 		// pathinfo: true,
 		publicPath: '/', //设置静态资源的路径
 		filename: '[name].js', //name对应入口的key值,可以添加hash [hash]
-		// chunkFilename: '[chunkhash:8].js',
+		chunkFilename: '[id].js',
 		// library: 'MyPlugin', //打包后的文件对外暴露的接口名称
 		libraryTarget: 'umd', //打包格式
 		// sourceMapFilename: '[hash].[id].map'

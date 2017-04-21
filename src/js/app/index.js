@@ -7,9 +7,16 @@ import * as A from '../utils/a'
 import * as B from '../utils/b'
 // import jq from '../libs/jquery-1.8.2'
 console.log(A)
-  // jq(function() {
-  //  jq('#J-rules-dialog').hide();
-  //  jq('body').on('click', function() {
-  //    alert('hahaha ,jq');
-  //  });
-  // });
+$('.close').on('click', function() {
+  require.ensure(['../utils/d'], function(require) {
+    var C = require('../utils/c')
+    require('../utils/d')
+    console.log(C.alert())
+  })
+});
+// jq(function() {
+//  jq('#J-rules-dialog').hide();
+//  jq('body').on('click', function() {
+//    alert('hahaha ,jq');
+//  });
+// });
