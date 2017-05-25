@@ -6,9 +6,9 @@
   "scripts": {
     "clean": "rimraf ./dist && mkdir dist",
     "prebuild": "npm run clean",
-    "build": "webpack --env=prod --progress --profile --colors",
+    "build": "NODE_ENV=prod && webpack --env=prod --progress --profile --colors",
     "predev": "npm run clean",
-    "dev": "webpack --env=dev --progress --profile --colors",
+    "dev": "NODE_ENV=dev && webpack --env=dev --progress --profile --colors",
     "start": "node server.js",
     "production": "webpack --env=prod -p",
     "view": "npm run build && node prodServer.js",
