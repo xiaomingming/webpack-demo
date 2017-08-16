@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 const importOnce = require('node-sass-import-once');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin');
+const ChunkManifestPlugin = require('chunk-manifest-webpack-plugin'); // 官方最新版本v1.10-1.1.2有bug，请勿更新，安装后删除并重新指定v1.0.0版本安装
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InlineChunkManifestHtmlWebpackPlugin = require('inline-chunk-manifest-html-webpack-plugin');
 const InlineManifestWebpackPlugin = require('inline-manifest-webpack-plugin');
@@ -124,21 +124,22 @@ const config = function(options) {
         jQuery: 'jquery'
       }),
       new webpack.optimize.CommonsChunkPlugin({
-        names: ["common", "manifest"] // vendor libs + extracted manifest
-          // minChunks: Infinity,
+        names: ["common", "manifest"], // vendor libs + extracted manifest
+        minChunks: Infinity,
       }),
       new webpack.HashedModuleIdsPlugin(),
       new WebpackChunkHash(),
       new ChunkManifestPlugin({
         filename: "chunk-manifest.json",
-        manifestVariable: "webpackManifest"
+        manifestVariable: "webpackManifest",
+        inlineManifest: false
       }),
 
       new HtmlWebpackPlugin({
         title: 'my web App',
         filename: 'index.html',
 
-        template: './src/index.ejs',
+        template: 'src/index.ejs',
         inject: 'body',
 
         chunks: ['index', 'common', 'manifest']
